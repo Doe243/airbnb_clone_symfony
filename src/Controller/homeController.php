@@ -9,9 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class homeController extends AbstractController {
 
-    /**
-     * @Route("/", name="homepage")
-     */
+
+    #[Route('/', name:'homepage')]
+    
     public function home() {
 
         $helloWorld = "Hello Guys !!!";
