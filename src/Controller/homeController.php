@@ -14,22 +14,6 @@ class homeController extends AbstractController {
     
     public function home() {
 
-        $helloWorld = "Hello Guys !!!";
-
-        return $this->render("home.html.twig",
-            [
-                "helloWorld" => $helloWorld
-            ]
-        );
-    }
-
-    /**
-     * @Route("/hello/{name/age/{age}}", name="hello_page_name_age")
-     * @Route("/hello/{name}", name="hello_page_name")
-     * @Route("/hello/", name="hello_page")
-     */
-    public function hello($name = "la famille"): Response
-    {
-        return new Response("Hello ".$name);
+        return $this->render("home.html.twig");
     }
 }

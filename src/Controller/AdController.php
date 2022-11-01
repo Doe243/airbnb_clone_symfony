@@ -45,6 +45,8 @@ class AdController extends AbstractController
     {
         $ad = new Ad();
 
+        $user = $this->getUser();
+
         //1ere façon de créer un formaulaire avec Symfony
 
         $form = $this->createFormBuilder($ad)
@@ -101,6 +103,8 @@ class AdController extends AbstractController
                 $image->setAd($ad);
                 $em->persist($image);
             }
+
+            $ad->setAuthor($user);
             
             $em->persist($ad);
             $em->flush();
@@ -128,7 +132,7 @@ class AdController extends AbstractController
 
      #[Route('/ads/{slug}/edit', name: 'ads_edit')]
 
-    public function FunctionName(Request $request, Ad $ad, EntityManagerInterface $em ): Response
+    public function FunctionName(Request $request, Ad $ad, EntityManagerInterface $em): Response
     {
 
         $form = $this->createFormBuilder($ad)
@@ -215,7 +219,7 @@ class AdController extends AbstractController
         ]);
     }
 
-     /**
+    /**
      * Permet d'avoir la conf de base d'un champ
      *
      * @param string $label
