@@ -80,9 +80,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Ad::class)]
     private Collection $ads;
 
+    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
+    private Collection $userRoles;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     public function getFullName() {
@@ -243,8 +247,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        
-        $roles = ['ROLE_USER'];
+        ///On parcourt notre tableau des rôles pour récupérer nos rôles 
+        ///et de le changer en chaîne de caractères
+
+        $roles = $this->userRoles->map(function($role) {
+
+            return $role->getTitle();
+
+        })->toArray();
+
+        $roles[] = "ROLE_USER";
         
         return $roles;
 
@@ -258,5 +270,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getSalt(){}
 
     public function eraseCredentials(){}
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles->add($userRole);
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->removeElement($userRole)) {
+            $userRole->removeUser($this);
+        }
+
+        return $this;
+    }
 
 }

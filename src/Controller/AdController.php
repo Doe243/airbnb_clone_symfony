@@ -8,6 +8,8 @@ use App\Form\AdType;
 use App\Form\ImageType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,6 +42,7 @@ class AdController extends AbstractController
      */
 
      #[Route('/ads/new', name:'ads_new')]
+     #[IsGranted('ROLE_USER')]
 
     public function create(Request $request, EntityManagerInterface $em): Response
     {
@@ -131,8 +134,9 @@ class AdController extends AbstractController
      */
 
      #[Route('/ads/{slug}/edit', name: 'ads_edit')]
+     #[Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message: "Cette annonce ne vous appartient pas donc vous ne pouvez pas la modifier")]
 
-    public function FunctionName(Request $request, Ad $ad, EntityManagerInterface $em): Response
+    public function edit(Request $request, Ad $ad, EntityManagerInterface $em): Response
     {
 
         $form = $this->createFormBuilder($ad)
@@ -239,6 +243,31 @@ class AdController extends AbstractController
                 ]
             ], $options);
 
+    }
+
+    /**
+     * Permet de supprimer une annonce
+     * 
+     * @param Ad $ad
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+
+    #[Route('/ads/{slug}/delete', name: 'ads_delete')]
+    #[Security("is_granted('ROLE_USER') and user == ad.getAuthor()", message: "Vous n'avez pas le droit d'accèder à cette ressource")]
+
+    public function FunctionName(Ad $ad, EntityManagerInterface $em): Response
+    {
+        $em->remove($ad);
+        $em->flush();
+
+        $this->addFlash(
+
+            "alert-success",
+            "L'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimer !"
+        );
+
+        return $this->redirectToRoute('ads_index');
     }
 
 }

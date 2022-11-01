@@ -37,7 +37,13 @@
 
                             </p>
 
-                            <a href="{{url_slug}}" class="btn btn-primary">En savoir plus</a>
+                            <a href="{{url_slug}}" class="btn btn-primary btn-sm rounded">En savoir plus</a>
+
+                            {% if app.user and app.user == ad.author %}
+
+                                <a href="{{path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-success btn-sm rounded">Modifier l'annonce</a>
+
+                            {% endif %}
 
                         </div>
 

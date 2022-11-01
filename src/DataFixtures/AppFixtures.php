@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use Faker\Factory;
+use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
 use Doctrine\Persistence\ObjectManager;
@@ -19,6 +20,22 @@ class AppFixtures extends Fixture
     {
 
         $faker = Factory::create('FR-fr');
+
+        $adminRole = new Role();
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+        $adminUser = new User();
+        $adminUser->setFirstName('René')
+                  ->setLastName('Doe')
+                  ->setEmail('renemumba@gmail.com')
+                  ->setHash($this->encoder->hashPassword($adminUser, 'password' ))  
+                  ->setPicture('https://astra-environmental.com/sites/astra-environmental.com/files/styles/default/public/default_images/author-thumb-min.png?itok=X5Iju55M')
+                  ->setIntroduction($faker->sentence())
+                  ->setDescription('<p>'. join('</p><p>', $faker->paragraphs(3)).'</p>')
+                  ->addUserRole($adminRole);
+        
+        $manager->persist($adminUser);
 
         /// Nous gérons les utilisateurs
 
