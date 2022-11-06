@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ad;
+use App\Entity\Booking;
 use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
@@ -27,7 +28,7 @@ class AppFixtures extends Fixture
 
         $adminUser = new User();
         $adminUser->setFirstName('René')
-                  ->setLastName('Doe')
+                  ->setLastName('MUMBA')
                   ->setEmail('renemumba@gmail.com')
                   ->setHash($this->encoder->hashPassword($adminUser, 'password' ))  
                   ->setPicture('https://astra-environmental.com/sites/astra-environmental.com/files/styles/default/public/default_images/author-thumb-min.png?itok=X5Iju55M')
@@ -107,6 +108,38 @@ class AppFixtures extends Fixture
                           
                     $manager->persist($image);
                 }
+
+            /// Nous gérons les réservations
+
+            for ($b = 0; $b < mt_rand(0, 10) ; $b++) { 
+                
+                $booking = new Booking();
+
+                $createdAt = $faker->dateTimeBetween('-6 months');
+
+                $startDate = $faker->dateTimeBetween('-3 months');
+
+                $duration = mt_rand(3, 10);
+
+                /// Ici, on crée un clone de startDate pour n'est pas modifier la valeur de celle qui se trouve au dessus
+
+                $endDate = (clone $startDate)->modify("+$duration days");
+
+                $amount = $ad->getPrice() * $duration;
+
+                $booker = $users[mt_rand(0, count($users) - 1)];
+
+                $booking->setBooker($booker)
+                        ->setAd($ad)
+                        ->setStartDate($startDate)
+                        ->setEndDate($endDate)
+                        ->setCreatedAt($createdAt)
+                        ->setAmount($amount)
+                        ->setComment($faker->paragraph());
+
+                $manager->persist($booking);
+
+            }
     
             $manager->persist($ad);
         }

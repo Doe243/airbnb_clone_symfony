@@ -5,12 +5,11 @@
         <title>SWEAT HOME 🏠 - {% block title %}Bienvenue {% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         
-            <link rel="stylesheet" href="/css/bootstrap.min.css">
-            <link rel="stylesheet" href="/css/app.css">
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
         
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         
@@ -25,11 +24,10 @@
 
         {% include 'partials/footer.html.twig' %}
 
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/popper.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
-            {{ encore_entry_script_tags('app') }}
-            <script src="/js/jquery.min.js"></script>
-            <script src="/js/popper.min.js"></script>
-            <script src="/js/bootstrap.min.js"></script>
         {% block javascripts %}
         {% endblock %}
     </body>

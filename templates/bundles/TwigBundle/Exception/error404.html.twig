@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page non trouvé{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Oups ! La page que vous recherchez n'existe pas ou a été supprimé !</h1>
+        <p>Vous pouvez retournez à la page d'accueil pour voir nos dernières annonces !</p>
+        <a href="path('homepage')" class="btn btn-info btn-sm rounded">Retour à la page d'accueil</a>
+        <a href="path('ads_index')" class="btn btn-success btn-sm rounded">Voir les annonces</a>
+    </div>
+
+{% endblock %}

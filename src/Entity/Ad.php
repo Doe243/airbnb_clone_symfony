@@ -74,9 +74,13 @@ class Ad
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Booking::class)]
+    private Collection $bookings;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
  
@@ -223,5 +227,73 @@ class Ad
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getAd() === $this) {
+                $booking->setAd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Permet d'obtenir un tableau des jours qui ne sont pas disponibles pour cette annonce
+     *
+     * @return array Un tableau d'objets DateTime représentant les jours d'occupation
+     */
+    public function getNotAvailbleDays() {
+
+        $notAvailableDays = [];
+
+        //On commence par calculer les jours qui 
+        //se trouvent entre la date d'arrivée et la date de départ (résultat en timestamp)
+
+        foreach($this->bookings as $booking) {
+
+            $resultat = range(
+
+                $booking->getStartDate()->getTimestamp(),
+
+                $booking->getEndDate()->getTimestamp(),
+
+                24 * 60 * 60
+
+            );
+
+            // Ensuite on transforme le timestamp en jour
+
+            $days = array_map(function($dayTimestamp) {
+
+                return new \DateTime(date('Y-m-d', $dayTimestamp));
+
+            }, $resultat);
+
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+        }
+
+        return $notAvailableDays;
     }
 }

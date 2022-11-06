@@ -256,7 +256,7 @@ class AdController extends AbstractController
     #[Route('/ads/{slug}/delete', name: 'ads_delete')]
     #[Security("is_granted('ROLE_USER') and user == ad.getAuthor()", message: "Vous n'avez pas le droit d'accèder à cette ressource")]
 
-    public function FunctionName(Ad $ad, EntityManagerInterface $em): Response
+    public function delete(Ad $ad, EntityManagerInterface $em): Response
     {
         $em->remove($ad);
         $em->flush();
@@ -270,4 +270,16 @@ class AdController extends AbstractController
         return $this->redirectToRoute('ads_index');
     }
 
+    /**
+     * Permet d'afficher la liste des réservations faites par l'utilisateur
+     * 
+     * @return Response
+     */
+
+     #[Route('/account/bookings', name: "account_bookings")]
+
+    public function bookings(): Response
+    {
+        return $this->render('account/bookings.html.twig');
+    }
 }
