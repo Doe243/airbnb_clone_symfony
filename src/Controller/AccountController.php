@@ -27,7 +27,7 @@ class AccountController extends AbstractController
 
     #[Route('/login', name: 'account_login')]
 
-    public function login(Request $request, AuthenticationUtils $utils): Response
+    public function login(AuthenticationUtils $utils): Response
     {
         $error = $utils->getLastAuthenticationError();
 
@@ -46,7 +46,7 @@ class AccountController extends AbstractController
     /**
      * Permet aux utilisateurs de se déconnecter
      *
-     * @return Response
+     * @return void
      */
     #[Route('/logout', name: 'account_logout')]
 

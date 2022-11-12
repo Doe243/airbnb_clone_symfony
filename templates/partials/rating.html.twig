@@ -1,0 +1,21 @@
+  {# Partie notation de l'annonce #}
+                            
+    <span class="rating">
+
+    {% for i in 1..5 %}
+
+        {% if i <= rating %}
+
+            <i class="fas fa-star" style="color:goldenrod;"></i>
+
+        {% else %}
+
+            <i class="far fa-star" style="color:goldenrod;"></i>
+
+        {% endif %}    
+
+    {% endfor %}
+
+    </span>
+
+{# Fin partie notation de l'annonce #}

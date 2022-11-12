@@ -4,15 +4,21 @@
 
 {% block body %}
 
-<div class="ad-title" style="background-image: url('https://prod-saint-gobain-fr.content.saint-gobain.io/sites/saint-gobain.fr/files/2020-10/moderniser-appartement-la-maison-saint-gobain.jpg')">
+<div class="ad-title mb-5">
+    
     <div class="container">
+
         <h1>{{ad.title}}</h1>
+
         <p>{{ad.introduction}}</p>
 
         <p class="h2">
+
             <strong>{{ad.rooms}} chambres</strong> pour <strong>{{ad.price}}&euro;</strong> par nuit
+
         </p>
-        <a href="{{path('booking_create', {slug : ad.slug})}}" class="btn btn-info btn-sm rounded">Réserver</a>
+
+        <a href="{{path('booking_create', {slug : ad.slug})}}" class="btn btn-info rounded btn-lg shadow mt-5">Réserver</a>
         
         {% if app.user and app.user == ad.author %}
 
@@ -23,10 +29,13 @@
         {% endif %}
 
     </div>
+
 </div>
 
 <div class="container">
+
     <div class="row">
+
         <div class="col-md-8 mb-3">
 
             {{ad.content | raw}}
@@ -68,16 +77,88 @@
 
 
                    {% endfor %}
+
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Previous</span>
+
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Next</span>
+
+                    </button>
+
                 </div>
+
+                <hr>
+   
+                {% if ad.comments | length > 0 %}
+                    <h2 class="mb-3">Commentaires de nos voyageurs :</h2>
+
+                    <div class="alert alert-info">
+
+                        <h4 class="alert-info text-center">
+
+                            <div class="row align-items-center">
+                            
+                                <div class="col">
+
+                                    Note globale donnée par nos voyageurs 
+
+                                </div>
+
+                                <div class="col">
+
+                                    {% include "partials/rating.html.twig" with {'rating': ad.avgRatings} %}
+
+                                    <br>
+
+                                    <small>(Calculée sur {{ ad.comments | length }} avis)</small>
+
+                                </div>
+
+                            </div>
+                        
+                        </h4>
+
+                    </div>
+                    
+                    {% for comment in ad.comments %}
+
+                        <div class="bg-light rounded mb-3 py-3 px-3">
+
+                            <strong>{{ comment.author.firstName }}</strong> a dit :
+
+                            <blockquote>
+
+                                {{ comment.content }}
+                                
+                            </blockquote>
+
+                            <strong>Note donnée : </strong> 
+
+                            {# {% set rating = comment.rating %} #}
+                            
+                            {% include "partials/rating.html.twig" with {  'rating': comment.rating } %}
+                
+                        </div>
+                        
+                    {% endfor %}
+
+                {% else %}
+
+                        <h2>Cette annonce n'a pas encore reçu de commentaires</h2>
+
+                {% endif %}
+
             </div>
 
         <div class="col">

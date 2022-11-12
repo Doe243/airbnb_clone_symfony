@@ -22,6 +22,8 @@ $('#add-image').click(function() {
 
     handleDeleteButtons();
 
+
+
     function handleDeleteButtons() {
 
         $('button[data-action="delete"]').click(function() {
@@ -40,10 +42,13 @@ $('#add-image').click(function() {
 
         $('#widgets-counter').val(count);
     }
+
+    //updateCounter();
 });
 
 // On appelle la fonction handleDeleteButtons lorsque la page recharge, au cas où on voudrait supprimer des photos lors des éditions
 
-updateCounter()
+
+updateCounter();
 
 handleDeleteButtons();

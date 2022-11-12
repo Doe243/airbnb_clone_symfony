@@ -3,9 +3,13 @@
 {% block title %}Page de {{ user.fullName }}{% endblock %}
 
 {% block body %}
-    <div class="container">
+
+    <div class="container my-5">
+
         <div class="row align-items-center">
+
             <div class="col-3 text-center">
+            
                <img src="{{user.picture}}" alt="Avatar de {{user.fullName}}" style="border-radius:50%; max-width:128px; max-height:128px;" class="mb-3">
                <br>
                <span class="badge bg-info rounded mb-5">{{user.ads | length}} annonce{% if (user.ads | length) > 1 %}s{% endif %}</span>

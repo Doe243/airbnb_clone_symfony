@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
@@ -80,9 +81,9 @@ class AppFixtures extends Fixture
             $ad           = new Ad();
 
             $title        = $faker->sentence();
+            
 
-
-            $coverImage   = $faker->imageUrl(1000, 350);
+            $coverImage   = "https://prod-saint-gobain-fr.content.saint-gobain.io/sites/saint-gobain.fr/files/2020-10/moderniser-appartement-la-maison-saint-gobain.jpg";
 
             $introduction = $faker->paragraph(2);
 
@@ -138,6 +139,20 @@ class AppFixtures extends Fixture
                         ->setComment($faker->paragraph());
 
                 $manager->persist($booking);
+
+                //Gestion des commentaires
+
+                if (mt_rand(0, 1)) {
+
+                    $comment = new Comment();
+
+                    $comment->setContent($faker->paragraph())
+                            ->setRating(mt_rand(1,5))
+                            ->setAuthor($booker)
+                            ->setAd($ad);
+                            
+                    $manager->persist($comment);
+                }
 
             }
     
