@@ -27,34 +27,36 @@
 
             <tbody>
 
-                {% for comment in comments %}
+                {% for comment in pagination.data %}
 
-                    <tr>
-                        
-                                
-                            <td>{{ comment.id }}</td>
-                            <td>{{ comment.createdAt | date('d/m/Y H:i') }}</td>
-                            <td>
-                                <img src="{{ comment.author.picture }}" style=" max-width: 30px; max-height: 30px;" class=" avatar avatar-micro mr-2" alt="Avatar de {{ comment.author.firstName}}"> 
-                                {{ comment.author.fullName }}
-                            </td>
-                            <td>{{ comment.content }}</td>
-                            <td>
-                                <span class="badge bg-info" >{{ comment.rating }}</span>
-                            </td>
-                            <td>{{ comment.ad.title }}</td>
-                            <td>
-                                <a href="{{ path('admin_comment_edit', {'id': comment.id}) }}" class="btn btn-primary"> 
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                    <tr>      
+                        <td>{{ comment.id }}</td>
 
-                                <a href=" {{ path('admin_comment_delete', {'id': comment.id}) }}" class="btn btn-danger"> 
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                        <td>{{ comment.createdAt | date('d/m/Y H:i') }}</td>
 
-                            </td>
+                        <td>
+                            <img src="{{ comment.author.picture }}" style=" max-width: 30px; max-height: 30px;" class=" avatar avatar-micro mr-2" alt="Avatar de {{ comment.author.firstName}}"> 
+                            {{ comment.author.fullName }}
+                        </td>
 
+                        <td>{{ comment.content }}</td>
 
+                        <td>
+                            <span class="badge bg-info" >{{ comment.rating }}</span>
+                        </td>
+
+                        <td>{{ comment.ad.title }}</td>
+
+                        <td>
+                            <a href="{{ path('admin_comment_edit', {'id': comment.id}) }}" class="btn btn-primary"> 
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <a href=" {{ path('admin_comment_delete', {'id': comment.id}) }}" class="btn btn-danger"> 
+                                <i class="fas fa-trash"></i>
+                            </a>
+
+                        </td>
                     
                     </tr>
 
@@ -63,6 +65,9 @@
             </tbody>
         
         </table>
+
+        {{pagination.display()}}
+
    </div>
    
 
