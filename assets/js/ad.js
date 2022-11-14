@@ -50,6 +50,7 @@ $('#add-image').click(function() {
 
 // On appelle la fonction handleDeleteButtons lorsque la page recharge, au cas où on voudrait supprimer des photos lors des éditions
 
-///updateCounter();///
 
-//handleDeleteButtons();
+updateCounter();
+
+handleDeleteButtons();
