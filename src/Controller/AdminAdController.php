@@ -48,6 +48,7 @@ class AdminAdController extends AbstractController
             $this->addFlash(
                 
                 'alert alert-success',
+                
                 "L'annonce <strong>{$ad->getTitle()} a bien été enregister !"
                 
             );
