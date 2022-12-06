@@ -48,7 +48,7 @@ security:
             provider: database_users
 
             form_login:
-                login_path: admin_account_login
+                login_path: account_login
                 check_path: account_login
 
             logout:
